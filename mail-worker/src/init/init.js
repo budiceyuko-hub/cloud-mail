@@ -461,6 +461,7 @@ const dbInit = {
 				c.env.db.prepare(`CREATE UNIQUE INDEX IF NOT EXISTS idx_account_email_nocase ON account (email COLLATE NOCASE)`),
 				c.env.db.prepare(`CREATE UNIQUE INDEX IF NOT EXISTS idx_user_email_nocase ON user (email COLLATE NOCASE)`),
 				c.env.db.prepare(`CREATE UNIQUE INDEX IF NOT EXISTS idx_setting_code ON reg_key(code COLLATE NOCASE)`),
+				// register/add_email/many_email/send use 0 = open and 1 = closed. A new database starts closed.
 				c.env.db.prepare(`
 					INSERT INTO setting (
 						register, receive, add_email, many_email, title, auto_refresh, register_verify, add_email_verify,
@@ -470,8 +471,8 @@ const dbInit = {
 						notice_title, notice_content, notice_type, notice_duration, notice_offset, notice_position, notice_width, notice, no_recipient,
 						login_domain, bucket, region, endpoint, s3_access_key, s3_secret_key
 					)
-					SELECT 0, 0, 0, 0, 'Cloud Mail', 2, 1, 1,
-						'{}', 0, 0.90,
+					SELECT 1, 0, 1, 1, 'Cloud Mail', 2, 1, 1,
+						'{}', 1, 0.90,
 						'', '', 1, '', 1, '', 0,
 						1, 1, 1,
 						'Cloud Mail', ?, 'none', 0, 0, 'top-right', 340, 0, 1,
